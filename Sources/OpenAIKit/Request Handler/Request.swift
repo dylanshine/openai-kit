@@ -1,0 +1,39 @@
+import AsyncHTTPClient
+import NIOHTTP1
+import Foundation
+
+protocol Request {
+    var method: HTTPMethod { get }
+    var scheme: String { get }
+    var host: String { get }
+    var path: String { get }
+    var body: HTTPClient.Body? { get }
+    var headers: HTTPHeaders { get }
+    var keyDecodingStrategy: JSONDecoder.KeyDecodingStrategy { get }
+    var dateDecodingStrategy: JSONDecoder.DateDecodingStrategy { get }
+}
+
+extension Request {
+    static var encoder: JSONEncoder { .requestEncoder }
+
+    var scheme: String { "https" }
+    var host: String { "api.openai.com" }
+    var body: HTTPClient.Body? { nil }
+    
+    var headers: HTTPHeaders {
+        var headers = HTTPHeaders()
+        headers.add(name: "Content-Type", value: "application/json")
+        return headers
+    }
+    
+    var keyDecodingStrategy: JSONDecoder.KeyDecodingStrategy { .convertFromSnakeCase }
+    var dateDecodingStrategy: JSONDecoder.DateDecodingStrategy { .millisecondsSince1970 }
+}
+
+extension JSONEncoder {
+    static var requestEncoder: JSONEncoder {
+        let encoder = JSONEncoder()
+        encoder.keyEncodingStrategy = .convertToSnakeCase
+        return encoder
+    }
+}
