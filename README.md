@@ -22,7 +22,9 @@ Register the config and the provider.
 
 ~~~~swift
 let httpClient = HTTPClient(...)
-let openAIClient = OpenAIKit.Client(httpClient: httpClient, apiKey: "YOUR_API_KEY")
+let configuration = Configuration(apiKey: "YOUR_API_KEY", organization: "YOUR_ORGANIZATION")
+
+let openAIClient = OpenAIKit.Client(httpClient: httpClient, configuration: configuration)
 ~~~~
 
 ## Using the API
