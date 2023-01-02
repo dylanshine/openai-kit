@@ -32,7 +32,7 @@ The OpenAIKit.Client implements a handful of methods to interact with the OpenAI
 ~~~~swift
 import OpenAIKit
 
-let completion = try await openAIClient.completions.createCompletion(
+let completion = try await openAIClient.completions.create(
     model: Model.GPT3.davinci,
     prompts: ["Write a haiku"]
 )
