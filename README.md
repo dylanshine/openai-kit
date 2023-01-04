@@ -21,7 +21,7 @@ targets: [
 Register the config and the provider.
 
 ~~~~swift
-let httpClient = HTTPClient(...)
+let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
 let configuration = Configuration(apiKey: "YOUR_API_KEY", organization: "YOUR_ORGANIZATION")
 
 let openAIClient = OpenAIKit.Client(httpClient: httpClient, configuration: configuration)
