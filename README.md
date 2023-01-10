@@ -31,8 +31,19 @@ OPENAI_ORGANIZATION="YOUR-ORGANIZATION"
 Create a `OpenAIKit.Client` using a httpClient and configuration.
 
 ~~~~swift
+
+var apiKey: String {
+	ProcessInfo.processInfo.environment["OPENAI_API_KEY"]!
+}
+
+var organization: String {
+	ProcessInfo.processInfo.environment["OPENAI_ORGANIZATION"]!
+}
+
+...
+
 let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
-let configuration = Configuration(apiKey: "YOUR_API_KEY", organization: "YOUR_ORGANIZATION")
+let configuration = Configuration(apiKey: apiKey, organization: organization)
 
 let openAIClient = OpenAIKit.Client(httpClient: httpClient, configuration: configuration)
 ~~~~
