@@ -1,6 +1,7 @@
 import AsyncHTTPClient
 import NIO
 import NIOHTTP1
+import NIOFoundationCompat
 import Foundation
 
 struct RequestHandler {
