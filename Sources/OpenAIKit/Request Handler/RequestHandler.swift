@@ -46,8 +46,7 @@ struct RequestHandler {
                 method: request.method,
                 headers: headers,
                 body: request.body
-            ),
-            deadline: NIODeadline.now() + .minutes(2)            
+            )         
         ).get()
         
         
