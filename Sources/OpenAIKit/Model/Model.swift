@@ -35,12 +35,17 @@ public protocol ModelID {
 }
 
 extension Model {
-    public struct CustomModel: ModelID {
-        public init(id: String) {
-            self.id = id
+    public struct CustomModel: RawRepresentable,ModelID {
+        public typealias RawValue = String
+        public var rawValue: String
+        
+        public init(rawValue id: String) {
+            self.rawValue = id
         }
         
-        public let id: String
+        public var id: String {
+            self.rawValue
+        }
     }
     
     public enum GPT3: String, ModelID {
