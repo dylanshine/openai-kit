@@ -36,6 +36,10 @@ public protocol ModelID {
 
 extension Model {
     public struct CustomModel: ModelID {
+        public init(id: String) {
+            self.id = id
+        }
+        
         public let id: String
     }
     
