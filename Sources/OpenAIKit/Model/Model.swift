@@ -35,7 +35,7 @@ public protocol ModelID {
 }
 
 extension Model {
-    public struct CustomModel: RawRepresentable,ModelID {
+    public struct CustomModel: RawRepresentable, ModelID {
         public typealias RawValue = String
         public var rawValue: String
         
