@@ -19,7 +19,7 @@ extension Completion {
         public let text: String
         public let index: Int
         public let logprobs: Logprobs?
-        public let finishReason: String
+        public let finishReason: String?
     }
 }
 
