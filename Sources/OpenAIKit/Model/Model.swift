@@ -35,6 +35,10 @@ public protocol ModelID {
 }
 
 extension Model {
+    public struct CustomModel: ModelID {
+        public let id: String
+    }
+    
     public enum GPT3: String, ModelID {
         case textDavinci003 = "text-davinci-003"
         case textDavinci002 = "text-davinci-002"
