@@ -35,19 +35,6 @@ public protocol ModelID {
 }
 
 extension Model {
-    public struct CustomModel: RawRepresentable, ModelID {
-        public typealias RawValue = String
-        public var rawValue: String
-        
-        public init(rawValue id: String) {
-            self.rawValue = id
-        }
-        
-        public var id: String {
-            self.rawValue
-        }
-    }
-    
     public enum GPT3: String, ModelID {
         case textDavinci003 = "text-davinci-003"
         case textDavinci002 = "text-davinci-002"
