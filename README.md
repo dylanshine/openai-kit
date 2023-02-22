@@ -32,18 +32,24 @@ Create a `OpenAIKit.Client` using a httpClient and configuration.
 
 ~~~~swift
 
-var apiKey: String {
-	ProcessInfo.processInfo.environment["OPENAI_API_KEY"]!
+let apiKey: () -> String = {
+    guard let apiKey = ProcessInfo.processInfo.environment["OPENAI_API_KEY"] else {
+        NSLog("Error: OPENAI_API_KEY environment variable not found", stderr)
+        exit(1)
+    }
+    return apiKey
 }
 
-var organization: String {
-	ProcessInfo.processInfo.environment["OPENAI_ORGANIZATION"]!
+let organization: () -> String = {
+    guard let apiKey = ProcessInfo.processInfo.environment["OPENAI_ORGANIZATION"] else {
+        NSLog("Error: OPENAI_ORGANIZATION environment variable not found", stderr)
+        exit(1)
+    }
+    return apiKey
 }
-
-...
 
 let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
-let configuration = Configuration(apiKey: apiKey, organization: organization)
+let configuration = Configuration(apiKey: apiKey(), organization: organization())
 
 let openAIClient = OpenAIKit.Client(httpClient: httpClient, configuration: configuration)
 ~~~~
