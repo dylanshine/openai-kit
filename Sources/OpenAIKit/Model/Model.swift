@@ -36,6 +36,8 @@ public protocol ModelID {
 
 extension Model {
     public enum GPT3: String, ModelID {
+        case gpt3_5Turbo = "gpt-3.5-turbo"
+        case gpt3_5Turbo0301 = "gpt-3.5-turbo-0301"
         case textDavinci003 = "text-davinci-003"
         case textDavinci002 = "text-davinci-002"
         case textCurie001 = "text-curie-001"
