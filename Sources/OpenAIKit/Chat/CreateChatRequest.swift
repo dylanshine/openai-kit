@@ -15,6 +15,7 @@ struct CreateChatRequest: Request {
         n: Int,
         stream: Bool,
         stops: [String],
+        maxTokens: Int?,
         presencePenalty: Double,
         frequencyPenalty: Double,
         logitBias: [String: Int],
@@ -29,6 +30,7 @@ struct CreateChatRequest: Request {
             n: n,
             stream: stream,
             stops: stops,
+            maxTokens: maxTokens,
             presencePenalty: presencePenalty,
             frequencyPenalty: frequencyPenalty,
             logitBias: logitBias,
@@ -48,6 +50,7 @@ extension CreateChatRequest {
         let n: Int
         let stream: Bool
         let stops: [String]
+        let maxTokens: Int?
         let presencePenalty: Double
         let frequencyPenalty: Double
         let logitBias: [String: Int]
@@ -61,6 +64,7 @@ extension CreateChatRequest {
             case n
             case stream
             case stop
+            case maxTokens
             case presencePenalty
             case frequencyPenalty
             case logitBias
@@ -82,6 +86,10 @@ extension CreateChatRequest {
             
             if !stops.isEmpty {
                 try container.encode(stops, forKey: .stop)
+            }
+            
+            if let maxTokens {
+                try container.encode(maxTokens, forKey: .maxTokens)
             }
             
             try container.encode(presencePenalty, forKey: .presencePenalty)
