@@ -26,9 +26,9 @@ extension Chat.Choice: Codable {}
 
 extension Chat {
     public struct Message {
-        public let role: String
+        public let role: Role
         public let content: String
-        public init(role: String, content: String) {
+        public init(role: Role, content: String) {
             self.role = role
             self.content = content
         }
@@ -36,3 +36,9 @@ extension Chat {
 }
 
 extension Chat.Message: Codable {}
+
+extension Chat.Message {
+    public enum Role: String, Codable {
+        case system, user, assistant
+    }
+}

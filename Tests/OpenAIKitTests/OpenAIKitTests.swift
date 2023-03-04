@@ -55,7 +55,7 @@ final class OpenAIKitTests: XCTestCase {
             model: Model.GPT3.gpt3_5Turbo,
             messages: [
                 Chat.Message(
-                    role: "user",
+                    role: .user,
                     content: "Write a haiku"
                 )
             ]
