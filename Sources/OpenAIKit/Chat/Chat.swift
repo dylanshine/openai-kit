@@ -18,20 +18,34 @@ extension Chat {
     public struct Choice {
         public let index: Int
         public let message: Message
-        public let finishReason: String?
+        public let finishReason: FinishReason?
+        
+        public enum FinishReason: String, Codable {
+            /// API returned complete model output
+            case stop
+            
+            /// Incomplete model output due to max_tokens parameter or token limit
+            case length
+            
+            /// Omitted content due to a flag from our content filters
+            case contentFilter
+            
+            enum CodingKeys: String, CodingKey  {
+                case stop
+                case length
+                case contentFilter = "content_filter"
+            }
+        }
     }
 }
 
 extension Chat.Choice: Codable {}
 
 extension Chat {
-    public struct Message {
-        public let role: Role
-        public let content: String
-        public init(role: Role, content: String) {
-            self.role = role
-            self.content = content
-        }
+    public enum Message {
+        case system(String)
+        case user(String)
+        case assistant(String)
     }
 }
 
