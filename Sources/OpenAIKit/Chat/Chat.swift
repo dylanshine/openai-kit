@@ -39,6 +39,8 @@ extension Chat.Message: Codable {}
 
 extension Chat.Message {
     public enum Role: String, Codable {
-        case system, user, assistant
+        case system
+        case user
+        case assistant
     }
 }
