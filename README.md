@@ -20,6 +20,11 @@ targets: [
 
 It is encouraged to use environment variables to inject the OpenAI API key, instead of hardcoding it in the source code.
 
+This is how you can add new environment variables in Xcode:
+1. Click on the scheme you're using and choose "Edit scheme"
+2. Under "Run", add a new environment variable called "OPENAI_API_KEY" (The value will be "YOUR-API-KEY". It can be found under your account managment page: https://platform.openai.com/account/api-keys)
+3. Add another new environment variable called "OPENAI_ORGANIZATION" (The value will be "YOUR-ORGANIZATION". It can be found in the settings page: https://platform.openai.com/account/org-settings)
+
 ~~~~bash
 # .env
 
