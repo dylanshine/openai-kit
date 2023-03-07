@@ -15,17 +15,17 @@ public struct ChatProvider {
      Creates a chat completion for the provided prompt and parameters
      */
     public func create(
-        model: ModelID,
-        messages: [Chat.Message] = [],
-        temperature: Double = 1.0,
-        topP: Double = 1.0,
-        n: Int = 1,
-        stream: Bool = false,
-        stops: [String] = [],
+        model: ModelID = Model.GPT3.gpt3_5Turbo,
+        messages: [Chat.Message],
+        temperature: Double? = nil,
+        topP: Double? = nil,
+        n: Int? = nil,
+        stream: Bool? = nil,
+        stop: [String]? = nil,
         maxTokens: Int? = nil,
-        presencePenalty: Double = 0.0,
-        frequencyPenalty: Double = 0.0,
-        logitBias: [String : Int] = [:],
+        presencePenalty: Double? = nil,
+        frequencyPenalty: Double? = nil,
+        logitBias: [String : Int]? = nil,
         user: String? = nil
     ) async throws -> Chat {
         
@@ -36,7 +36,7 @@ public struct ChatProvider {
             topP: topP,
             n: n,
             stream: stream,
-            stops: stops,
+            stop: stop,
             maxTokens: maxTokens,
             presencePenalty: presencePenalty,
             frequencyPenalty: frequencyPenalty,

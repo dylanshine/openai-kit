@@ -20,7 +20,7 @@ extension Chat {
         public let message: Message
         public let finishReason: FinishReason?
         
-        public enum FinishReason: String, Codable {
+        public enum FinishReason: String {
             /// API returned complete model output
             case stop
             
@@ -28,18 +28,14 @@ extension Chat {
             case length
             
             /// Omitted content due to a flag from our content filters
-            case contentFilter
-            
-            enum CodingKeys: String, CodingKey  {
-                case stop
-                case length
-                case contentFilter = "content_filter"
-            }
+            case contentFilter = "content_filter"
         }
     }
 }
 
 extension Chat.Choice: Codable {}
+
+extension Chat.Choice.FinishReason: Codable {}
 
 extension Chat {
     public enum Message {
@@ -49,12 +45,40 @@ extension Chat {
     }
 }
 
-extension Chat.Message: Codable {}
-
-extension Chat.Message {
-    public enum Role: String, Codable {
-        case system
-        case user
-        case assistant
+extension Chat.Message: Codable {
+    private enum CodingKeys: String, CodingKey {
+        case role
+        case content
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let role = try container.decode(String.self, forKey: .role)
+        let content = try container.decode(String.self, forKey: .content)
+        switch role {
+        case "system":
+            self = .system(content)
+        case "user":
+            self = .user(content)
+        case "assistant":
+            self = .assistant(content)
+        default:
+            throw DecodingError.dataCorruptedError(forKey: .role, in: container, debugDescription: "Invalid type")
+        }
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+        case .system(let content):
+            try container.encode("system", forKey: .role)
+            try container.encode(content, forKey: .content)
+        case .user(let content):
+            try container.encode("user", forKey: .role)
+            try container.encode(content, forKey: .content)
+        case .assistant(let content):
+            try container.encode("assistant", forKey: .role)
+            try container.encode(content, forKey: .content)
+        }
     }
 }
