@@ -27,7 +27,7 @@ extension Request {
     }
     
     var keyDecodingStrategy: JSONDecoder.KeyDecodingStrategy { .convertFromSnakeCase }
-    var dateDecodingStrategy: JSONDecoder.DateDecodingStrategy { .millisecondsSince1970 }
+    var dateDecodingStrategy: JSONDecoder.DateDecodingStrategy { .secondsSince1970 }
 }
 
 extension JSONEncoder {
