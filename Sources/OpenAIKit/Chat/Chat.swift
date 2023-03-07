@@ -39,9 +39,9 @@ extension Chat.Choice.FinishReason: Codable {}
 
 extension Chat {
     public enum Message {
-        case system(String)
-        case user(String)
-        case assistant(String)
+        case system(content: String)
+        case user(content: String)
+        case assistant(content: String)
     }
 }
 
@@ -57,11 +57,11 @@ extension Chat.Message: Codable {
         let content = try container.decode(String.self, forKey: .content)
         switch role {
         case "system":
-            self = .system(content)
+            self = .system(content: content)
         case "user":
-            self = .user(content)
+            self = .user(content: content)
         case "assistant":
-            self = .assistant(content)
+            self = .assistant(content: content)
         default:
             throw DecodingError.dataCorruptedError(forKey: .role, in: container, debugDescription: "Invalid type")
         }

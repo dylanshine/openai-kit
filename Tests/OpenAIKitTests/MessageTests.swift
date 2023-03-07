@@ -73,13 +73,13 @@ final class MessageTests: XCTestCase {
     }
     
     func testMessageRoundtrip() throws {
-        let message = Chat.Message.system("You are a helpful assistant that translates English to French.")
+        let message = Chat.Message.system(content: "You are a helpful assistant that translates English to French.")
         let encoded = try encoder.encode(message)
         let decoded = try decoder.decode(Chat.Message.self, from: encoded)
         print(String(data: encoded, encoding: .utf8)!)
         switch decoded {
         case .system(let content):
-            guard case let .system(original) = message else {
+            guard case let .system(content: original) = message else {
                 XCTFail()
                 return
             }
@@ -134,8 +134,8 @@ final class MessageTests: XCTestCase {
     func testChatRequest() throws {
         let request = try CreateChatRequest(model: "gpt-3.5-turbo", //.gpt3_5Turbo,
                           messages: [
-                            .system("You are Malcolm Tucker from The Thick of It, an unfriendly assistant for writing mail and explaining science and history. You write text in your voice for me."),
-                            .user("tell me a joke"),
+                            .system(content: "You are Malcolm Tucker from The Thick of It, an unfriendly assistant for writing mail and explaining science and history. You write text in your voice for me."),
+                            .user(content: "tell me a joke"),
                           ],
                           temperature: 1.0)
         print(request.body)
