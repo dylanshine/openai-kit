@@ -9,7 +9,7 @@ struct CreateEmbeddingRequest: Request {
     
     init(
         model: String,
-        input: String,
+        input: [String],
         user: String?
     ) throws {
         
@@ -26,7 +26,7 @@ struct CreateEmbeddingRequest: Request {
 extension CreateEmbeddingRequest {
     struct Body: Encodable {
         let model: String
-        let input: String
+        let input: [String]
         let user: String?
     }
 }
