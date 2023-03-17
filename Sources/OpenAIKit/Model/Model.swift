@@ -43,7 +43,7 @@ extension Model {
         case textCurie001 = "text-curie-001"
         case textBabbage001 = "text-babbage-001"
         case textAda001 = "text-ada-001"
-        case textEmbeddingAda001 = "text-embedding-ada-002"
+        case textEmbeddingAda002 = "text-embedding-ada-002"
         case textDavinci001 = "text-davinci-001"
         case textDavinciEdit001 = "text-davinci-edit-001"
         case davinciInstructBeta = "davinci-instruct-beta"
