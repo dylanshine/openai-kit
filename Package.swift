@@ -34,6 +34,8 @@ let package = Package(
             resources: [
                 .copy("Resources/logo.png"),
                 .copy("Resources/example.jsonl"),
+                .copy("Resources/9000.mp3"),
+                .copy("Resources/cena.mp3"),
             ]
         ),
     ]

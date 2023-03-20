@@ -5,13 +5,14 @@ import Foundation
 
 public struct Client {
     
-    public let models: ModelProvider
-    public let completions: CompletionProvider
+    public let audio: AudioProvider
     public let chats: ChatProvider
+    public let completions: CompletionProvider
     public let edits: EditProvider
-    public let images: ImageProvider
     public let embeddings: EmbeddingProvider
     public let files: FileProvider
+    public let images: ImageProvider
+    public let models: ModelProvider
     public let moderations: ModerationProvider
 
     public init(
@@ -23,7 +24,8 @@ public struct Client {
             httpClient: httpClient,
             configuration: configuration
         )
-                
+        
+        self.audio = AudioProvider(requestHandler: requestHandler)
         self.models = ModelProvider(requestHandler: requestHandler)
         self.completions = CompletionProvider(requestHandler: requestHandler)
         self.chats = ChatProvider(requestHandler: requestHandler)

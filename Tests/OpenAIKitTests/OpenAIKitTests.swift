@@ -150,4 +150,33 @@ final class OpenAIKitTests: XCTestCase {
         print(moderation)
     }
     
+    func test_createTranscription() async throws {
+        let url = Bundle.module.url(forResource: "9000", withExtension: "mp3")!
+        
+        let data = try Data(contentsOf: url)
+        
+        let transcription = try await client.audio.transcribe(
+            file: data,
+            fileName: "9000.mp3",
+            mimeType: .mpeg,
+            language: .english
+        )
+        
+        print(transcription)
+    }
+    
+    func test_createTranslation() async throws {
+        let url = Bundle.module.url(forResource: "cena", withExtension: "mp3")!
+        
+        let data = try Data(contentsOf: url)
+        
+        let translation = try await client.audio.translate(
+            file: data,
+            fileName: "cena.mp3",
+            mimeType: .mpeg
+        )
+        
+        print(translation)
+    }
+    
 }

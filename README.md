@@ -70,7 +70,7 @@ let completion = try await openAIClient.completions.create(
 * [x] [Files](https://beta.openai.com/docs/api-reference/files)
 * [x] [Moderations](https://beta.openai.com/docs/api-reference/moderations)
 * [ ] [Fine-tunes](https://beta.openai.com/docs/api-reference/fine-tunes)
-* [ ] [Speech to text](https://platform.openai.com/docs/guides/speech-to-text)
+* [x] [Speech to text](https://platform.openai.com/docs/guides/speech-to-text)
 
 
 ## Error handling

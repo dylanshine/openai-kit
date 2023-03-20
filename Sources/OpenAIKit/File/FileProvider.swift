@@ -38,7 +38,7 @@ public struct FileProvider {
         purpose: File.Purpose
     ) async throws -> File {
         
-        let request = try UploadFileRequest(
+        let request = UploadFileRequest(
             file: file,
             fileName: fileName,
             purpose: purpose

@@ -18,14 +18,14 @@ struct UploadFileRequest: Request {
         file: Data,
         fileName: String,
         purpose: File.Purpose
-    ) throws {
+    ) {
         let builder = MultipartFormDataBuilder(boundary: boundary)
         
         builder.addDataField(
             fieldName:  "file",
             fileName: fileName,
             data: file,
-            mimeType: "application/json"
+            mimeType: MIMEType.File.json.rawValue
         )
         
         builder.addTextField(named: "purpose", value: purpose.rawValue)

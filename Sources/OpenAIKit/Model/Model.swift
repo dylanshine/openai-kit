@@ -52,10 +52,6 @@ extension Model {
         case curie
         case ada
         case babbage
-        
-        public var id: String {
-            rawValue
-        }
     }
     
     public enum Codex: String, ModelID {
@@ -63,9 +59,15 @@ extension Model {
         case codeCushman001 = "code-cushman-001"
         case codeDavinci001 = "code-davinci-001"
         case codeDavinciEdit001 = "code-davinci-edit-001"
-        
-        public var id: String {
-            rawValue
-        }
+    }
+    
+    public enum Whisper: String, ModelID {
+        case whisper1 = "whisper-1"
+    }
+}
+
+extension RawRepresentable where RawValue == String {
+    public var id: String {
+        rawValue
     }
 }

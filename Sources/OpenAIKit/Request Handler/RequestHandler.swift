@@ -56,6 +56,9 @@ struct RequestHandler {
         
         decoder.keyDecodingStrategy = request.keyDecodingStrategy
         decoder.dateDecodingStrategy = request.dateDecodingStrategy
+        
+        let jsonObject = try JSONSerialization.jsonObject(with: byteBuffer)
+        print(jsonObject)
 
         do {
             return try decoder.decode(T.self, from: byteBuffer)
