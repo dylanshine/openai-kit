@@ -43,6 +43,9 @@ var organization: String {
 ...
 
 let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
+defer {
+    try? httpClient.syncShutdown()
+}
 let configuration = Configuration(apiKey: apiKey, organization: organization)
 
 let openAIClient = OpenAIKit.Client(httpClient: httpClient, configuration: configuration)
