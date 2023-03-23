@@ -44,6 +44,7 @@ var organization: String {
 
 let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
 defer {
+    // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
     try? httpClient.syncShutdown()
 }
 let configuration = Configuration(apiKey: apiKey, organization: organization)

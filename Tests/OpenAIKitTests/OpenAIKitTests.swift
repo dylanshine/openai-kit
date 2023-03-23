@@ -18,7 +18,7 @@ final class OpenAIKitTests: XCTestCase {
         )
     }
     
-    override func tearDown() async throws {
+    override func tearDownWithError() throws {
         try httpClient.syncShutdown()
     }
     
