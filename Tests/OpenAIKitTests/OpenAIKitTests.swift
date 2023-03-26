@@ -18,8 +18,8 @@ final class OpenAIKitTests: XCTestCase {
         )
     }
     
-    override func tearDown() async throws {
-        try await httpClient.shutdown()
+    override func tearDownWithError() throws {
+        try httpClient.syncShutdown()
     }
     
     func test_error() async throws {
@@ -41,6 +41,17 @@ final class OpenAIKitTests: XCTestCase {
         print(models)
     }
     
+    func test_gpt4Completion() async throws {
+        let messages: [Chat.Message] = [
+            .system(content: "You are a fairytale storyteller. Create a fairytale about the subject in the next message."),
+            .user(content: "a happy wolf in the forrest")
+        ]
+        let completion = try await client.chats.create(
+            model: Model.GPT4.gpt4,
+            messages: messages)
+        print(completion)
+    }
+    
     func test_createCompletion() async throws {
         let completion = try await client.completions.create(
             model: Model.GPT3.davinci,
@@ -60,7 +71,7 @@ final class OpenAIKitTests: XCTestCase {
         
         print(completion)
     }
-    
+
     func test_createEdit() async throws {
         let edit = try await client.edits.create(
             input: "Whay day of the wek is it?",
