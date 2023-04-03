@@ -3,7 +3,7 @@ import NIO
 import NIOHTTP1
 import Foundation
 
-public struct Client {
+public final class Client {
     
     public let audio: AudioProvider
     public let chats: ChatProvider
@@ -14,11 +14,15 @@ public struct Client {
     public let images: ImageProvider
     public let models: ModelProvider
     public let moderations: ModerationProvider
+    
+    private let httpClient: HTTPClient
 
     public init(
-        httpClient: HTTPClient,
+        httpClient: HTTPClient = HTTPClient(eventLoopGroupProvider: .createNew),
         configuration: Configuration
     ) {
+        
+        self.httpClient = httpClient
 
         let requestHandler = RequestHandler(
             httpClient: httpClient,
@@ -35,6 +39,10 @@ public struct Client {
         self.files = FileProvider(requestHandler: requestHandler)
         self.moderations = ModerationProvider(requestHandler: requestHandler)
         
+    }
+    
+    deinit {
+        try? httpClient.syncShutdown()
     }
 
 }
