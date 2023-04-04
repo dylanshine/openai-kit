@@ -31,6 +31,17 @@ final class OpenAIKitTests: XCTestCase {
         
     }
     
+    func test_usingInternalHTTPClient() async throws {
+        
+        let client = Client(
+            configuration: .init(apiKey: "YOUR-API-KEY")
+        )
+        
+        let models = try await client.models.list()
+        print(models)
+        
+    }
+    
     func test_listModels() async throws {
         let models = try await client.models.list()
         print(models)

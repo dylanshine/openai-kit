@@ -15,17 +15,20 @@ public final class Client {
     public let models: ModelProvider
     public let moderations: ModerationProvider
     
-    private let httpClient: HTTPClient
+    // Hold onto reference of internally created HTTPClient to perform appropriate shutdowns.
+    private let _httpClient: HTTPClient?
 
     public init(
-        httpClient: HTTPClient = HTTPClient(eventLoopGroupProvider: .createNew),
+        // If an HTTPClient is not provided, an internal one will be created, and will be shutdown after the lifecycle of the Client
+        httpClient: HTTPClient? = nil,
         configuration: Configuration
     ) {
         
-        self.httpClient = httpClient
-
+        // If an httpClient is provided, don't hold reference to it.
+        self._httpClient = httpClient == nil ? HTTPClient(eventLoopGroupProvider: .createNew) : nil
+        
         let requestHandler = RequestHandler(
-            httpClient: httpClient,
+            httpClient: httpClient ?? _httpClient!,
             configuration: configuration
         )
         
@@ -48,7 +51,7 @@ public final class Client {
          */
         guard MultiThreadedEventLoopGroup.currentEventLoop == nil else { return }
         
-        try? httpClient.syncShutdown()
+        try? _httpClient?.syncShutdown()
     }
 
 }
