@@ -3,7 +3,7 @@ import NIO
 import NIOHTTP1
 import Foundation
 
-public struct Client {
+public final class Client {
     
     public let audio: AudioProvider
     public let chats: ChatProvider
@@ -14,14 +14,21 @@ public struct Client {
     public let images: ImageProvider
     public let models: ModelProvider
     public let moderations: ModerationProvider
+    
+    // Hold onto reference of internally created HTTPClient to perform appropriate shutdowns.
+    private let _httpClient: HTTPClient?
 
     public init(
-        httpClient: HTTPClient,
+        // If an HTTPClient is not provided, an internal one will be created, and will be shutdown after the lifecycle of the Client
+        httpClient: HTTPClient? = nil,
         configuration: Configuration
     ) {
-
+        
+        // If an httpClient is provided, don't hold reference to it.
+        self._httpClient = httpClient == nil ? HTTPClient(eventLoopGroupProvider: .createNew) : nil
+        
         let requestHandler = RequestHandler(
-            httpClient: httpClient,
+            httpClient: httpClient ?? _httpClient!,
             configuration: configuration
         )
         
@@ -35,6 +42,16 @@ public struct Client {
         self.files = FileProvider(requestHandler: requestHandler)
         self.moderations = ModerationProvider(requestHandler: requestHandler)
         
+    }
+    
+    deinit {
+        /**
+         syncShutdown() must not be called when on an EventLoop.
+         Calling syncShutdown() on any EventLoop can lead to deadlocks.
+         */
+        guard MultiThreadedEventLoopGroup.currentEventLoop == nil else { return }
+        
+        try? _httpClient?.syncShutdown()
     }
 
 }

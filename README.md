@@ -28,7 +28,7 @@ OPENAI_ORGANIZATION="YOUR-ORGANIZATION"
 ~~~~
 ⚠️ OpenAI strongly recommends developers of client-side applications proxy requests through a separate backend service to keep their API key safe. API keys can access and manipulate customer billing, usage, and organizational data, so it's a significant risk to [expose](https://nshipster.com/secrets/) them.
 
-Create a `OpenAIKit.Client` using a httpClient and configuration.
+Create a `OpenAIKit.Client` by passing a configuration.
 
 ~~~~swift
 
@@ -42,12 +42,21 @@ var organization: String {
 
 ...
 
+let configuration = Configuration(apiKey: apiKey, organization: organization)
+
+let openAIClient = OpenAIKit.Client(configuration: configuration)
+~~~~
+
+By default, a `HTTPClient` will be internally managed by the framework. For more granular control, you may also instantiate the `OpenAIKit.Client` by passing in your own `HTTPClient`. 
+
+~~~~swift
+...
+
 let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
 defer {
     // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
     try? httpClient.syncShutdown()
 }
-let configuration = Configuration(apiKey: apiKey, organization: organization)
 
 let openAIClient = OpenAIKit.Client(httpClient: httpClient, configuration: configuration)
 ~~~~
