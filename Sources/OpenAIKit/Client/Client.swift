@@ -42,6 +42,12 @@ public final class Client {
     }
     
     deinit {
+        /**
+         syncShutdown() must not be called when on an EventLoop.
+         Calling syncShutdown() on any EventLoop can lead to deadlocks.
+         */
+        guard MultiThreadedEventLoopGroup.currentEventLoop == nil else { return }
+        
         try? httpClient.syncShutdown()
     }
 
