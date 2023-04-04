@@ -75,6 +75,7 @@ let completion = try await openAIClient.completions.create(
 ~~~~
 
 ### What's Implemented
+* [x] [Chat](https://platform.openai.com/docs/api-reference/chat)
 * [x] [Models](https://beta.openai.com/docs/api-reference/models)
 * [x] [Completions](https://beta.openai.com/docs/api-reference/completions)
 * [x] [Edits](https://beta.openai.com/docs/api-reference/edits)
