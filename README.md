@@ -42,24 +42,23 @@ var organization: String {
 
 ...
 
-let configuration = Configuration(apiKey: apiKey, organization: organization)
+// Generally we would advise on creating a single HTTPClient for the lifecycle of your application and recommend shutting it down on application close.
 
-let openAIClient = OpenAIKit.Client(configuration: configuration)
-~~~~
+let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
 
-By default, a `HTTPClient` will be internally managed by the framework. For more granular control, you may also instantiate the `OpenAIKit.Client` by passing in your own `HTTPClient`. 
+let httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
 
-~~~~swift
-...
-
-let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
 defer {
     // it's important to shutdown the httpClient after all requests are done, even if one failed. See: https://github.com/swift-server/async-http-client
     try? httpClient.syncShutdown()
 }
 
+let configuration = Configuration(apiKey: apiKey, organization: organization)
+
 let openAIClient = OpenAIKit.Client(httpClient: httpClient, configuration: configuration)
+
 ~~~~
+
 
 ## Using the API
 

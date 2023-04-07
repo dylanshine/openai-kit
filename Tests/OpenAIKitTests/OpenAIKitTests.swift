@@ -1,4 +1,5 @@
 import XCTest
+import NIOPosix
 import AsyncHTTPClient
 @testable import OpenAIKit
 
@@ -8,7 +9,10 @@ final class OpenAIKitTests: XCTestCase {
     private var client: Client!
     
     override func setUp() {
-        httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
+        
+        let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
+
+        httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
         
         let configuration = Configuration(apiKey: "YOUR-API-KEY")
         
@@ -28,17 +32,6 @@ final class OpenAIKitTests: XCTestCase {
         } catch {
             print(error)
         }
-        
-    }
-    
-    func test_usingInternalHTTPClient() async throws {
-        
-        let client = Client(
-            configuration: .init(apiKey: "YOUR-API-KEY")
-        )
-        
-        let models = try await client.models.list()
-        print(models)
         
     }
     
