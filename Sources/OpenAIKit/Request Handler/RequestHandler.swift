@@ -40,12 +40,17 @@ struct RequestHandler {
         
         let url = try generateURL(for: request)
         
+        let body: HTTPClient.Body? = {
+            guard let data = request.body else { return nil }
+            return .data(data)
+        }()
+        
         let response = try await httpClient.execute(
             request: HTTPClient.Request(
                 url: url,
                 method: request.method,
                 headers: headers,
-                body: request.body
+                body: body
             )
         ).get()
         
@@ -64,4 +69,54 @@ struct RequestHandler {
         }
                     
     }
+    
+    func stream<T: Decodable>(request: Request) async throws -> AsyncThrowingStream<T, Error> {
+        
+        let url = try generateURL(for: request)
+        
+        var httpClientRequest = HTTPClientRequest(url: url)
+        
+        httpClientRequest.headers.add(contentsOf: configuration.headers)
+        httpClientRequest.headers.add(contentsOf: request.headers)
+        
+        httpClientRequest.method = request.method
+
+        if let body = request.body {
+            httpClientRequest.body = .bytes(body)
+        }
+        
+        let response = try await httpClient.execute(httpClientRequest, timeout: .seconds(25))
+        
+        return AsyncThrowingStream<T, Error> { continuation in
+            Task(priority: .userInitiated) {
+                do {
+                    for try await buffer in response.body {
+                        String(buffer: buffer)
+                            .components(separatedBy: "data: ")
+                            .filter { $0 != "data: " }
+                            .compactMap {
+                                guard let data = $0.data(using: .utf8) else { return nil }
+                                return try? decoder.decode(T.self, from: data)
+                            }
+                            .forEach { value in
+                                continuation.yield(value)
+                            }
+                    }
+                    continuation.finish()
+                } catch {
+                    
+                    let data = try? await response.body.reduce(into: Data()) { $0.append(.init(buffer: $1)) }
+                    
+                    if let data = data,
+                       let apiError = try? decoder.decode(APIErrorResponse.self, from: data) {
+                        continuation.finish(throwing: apiError)
+                    } else {
+                        continuation.finish(throwing: error)
+                    }
+        
+                }
+            }
+        }
+    }
+
 }

@@ -5,7 +5,7 @@ import Foundation
 struct CreateEditRequest: Request {
     let method: HTTPMethod = .POST
     let path = "/v1/edits"
-    let body: HTTPClient.Body?
+    let body: Data?
     
     init(
         model: String,
@@ -25,7 +25,7 @@ struct CreateEditRequest: Request {
             topP: topP
         )
                 
-        self.body = .data(try Self.encoder.encode(body))
+        self.body = try Self.encoder.encode(body)
     }
 }
 

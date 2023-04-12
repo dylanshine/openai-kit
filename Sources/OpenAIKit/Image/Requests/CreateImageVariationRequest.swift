@@ -5,7 +5,7 @@ import Foundation
 struct CreateImageVariationRequest: Request {
     let method: HTTPMethod = .POST
     let path = "/v1/images/variations"
-    let body: HTTPClient.Body?
+    let body: Data?
     private let boundary = UUID().uuidString
     
     var headers: HTTPHeaders {
@@ -37,6 +37,6 @@ struct CreateImageVariationRequest: Request {
             builder.addTextField(named: "user", value: user)
         }
 
-        self.body = .data(builder.build())
+        self.body = builder.build()
     }
 }

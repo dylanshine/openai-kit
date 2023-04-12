@@ -5,7 +5,7 @@ import Foundation
 struct CreateImageRequest: Request {
     let method: HTTPMethod = .POST
     let path = "/v1/images/generations"
-    let body: HTTPClient.Body?
+    let body: Data?
     
     init(
         prompt: String,
@@ -21,7 +21,7 @@ struct CreateImageRequest: Request {
             user: user
         )
                 
-        self.body = .data(try Self.encoder.encode(body))
+        self.body = try Self.encoder.encode(body)
     }
 }
 

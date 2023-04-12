@@ -5,7 +5,7 @@ import Foundation
 struct CreateCompletionRequest: Request {
     let method: HTTPMethod = .POST
     let path = "/v1/completions"
-    let body: HTTPClient.Body?
+    let body: Data?
     
     init(
         model: String,
@@ -45,7 +45,7 @@ struct CreateCompletionRequest: Request {
             user: user
         )
                 
-        self.body = .data(try Self.encoder.encode(body))
+        self.body = try Self.encoder.encode(body)
     }
 }
 

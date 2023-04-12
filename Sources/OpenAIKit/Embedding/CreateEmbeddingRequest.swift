@@ -5,7 +5,7 @@ import Foundation
 struct CreateEmbeddingRequest: Request {
     let method: HTTPMethod = .POST
     let path = "/v1/embeddings"
-    let body: HTTPClient.Body?
+    let body: Data?
     
     init(
         model: String,
@@ -19,7 +19,7 @@ struct CreateEmbeddingRequest: Request {
             user: user
         )
                 
-        self.body = .data(try Self.encoder.encode(body))
+        self.body = try Self.encoder.encode(body)
     }
 }
 

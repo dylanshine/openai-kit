@@ -7,7 +7,7 @@ protocol Request {
     var scheme: String { get }
     var host: String { get }
     var path: String { get }
-    var body: HTTPClient.Body? { get }
+    var body: Data? { get }
     var headers: HTTPHeaders { get }
     var keyDecodingStrategy: JSONDecoder.KeyDecodingStrategy { get }
     var dateDecodingStrategy: JSONDecoder.DateDecodingStrategy { get }
@@ -18,7 +18,7 @@ extension Request {
 
     var scheme: String { "https" }
     var host: String { "api.openai.com" }
-    var body: HTTPClient.Body? { nil }
+    var body: Data? { nil }
     
     var headers: HTTPHeaders {
         var headers = HTTPHeaders()
