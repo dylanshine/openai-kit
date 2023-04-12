@@ -14,7 +14,7 @@ final class OpenAIKitTests: XCTestCase {
 
         httpClient = HTTPClient(eventLoopGroupProvider: .shared(eventLoopGroup))
         
-        let configuration = Configuration(apiKey: "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")
+        let configuration = Configuration(apiKey: "YOUR-API-KEY")
         
         client = Client(
             httpClient: httpClient,
