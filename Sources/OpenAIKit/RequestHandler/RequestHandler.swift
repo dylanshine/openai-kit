@@ -24,7 +24,7 @@ struct RequestHandler {
         var components = URLComponents()
         components.scheme = configuration.api?.scheme.value ?? request.scheme.value
         components.host = configuration.api?.host ?? request.host
-        components.path =  request.path
+        components.path = request.path
             
         guard let url = components.url else {
             throw RequestHandlerError.invalidURLGenerated
