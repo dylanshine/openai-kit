@@ -19,23 +19,10 @@ extension Chat {
         public let index: Int
         public let message: Message
         public let finishReason: FinishReason?
-        
-        public enum FinishReason: String {
-            /// API returned complete model output
-            case stop
-            
-            /// Incomplete model output due to max_tokens parameter or token limit
-            case length
-            
-            /// Omitted content due to a flag from our content filters
-            case contentFilter = "content_filter"
-        }
     }
 }
 
 extension Chat.Choice: Codable {}
-
-extension Chat.Choice.FinishReason: Codable {}
 
 extension Chat {
     public enum Message {
@@ -86,11 +73,7 @@ extension Chat.Message: Codable {
 extension Chat.Message {
     public var content: String {
         switch self {
-        case .system(let content):
-            return content
-        case .user(let content):
-            return content
-        case .assistant(let content):
+        case .system(let content), .user(let content), .assistant(let content):
             return content
         }
     }

@@ -75,6 +75,22 @@ final class OpenAIKitTests: XCTestCase {
         
         print(completion)
     }
+    
+    func test_createChatStream() async throws {
+        let stream = try await client.chats.stream(
+            model: Model.GPT3.gpt3_5Turbo,
+            messages: [
+                .user(content: "Write a haiki")
+            ]
+        )
+        
+        for try await chat in stream {
+            if let message = chat.choices.first?.delta.content {
+                print(message)
+            }
+        }        
+    }
+
 
     func test_createEdit() async throws {
         let edit = try await client.edits.create(

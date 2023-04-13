@@ -12,7 +12,7 @@ import AsyncHTTPClient
 struct CreateTranslationRequest: Request {
     let method: HTTPMethod = .POST
     let path = "/v1/audio/translations"
-    let body: HTTPClient.Body?
+    let body: Data?
     private let boundary = UUID().uuidString
     
     var headers: HTTPHeaders {
@@ -53,6 +53,6 @@ struct CreateTranslationRequest: Request {
             builder.addTextField(named: "temperature", value: String(temperature))
         }
         
-        self.body = .data(builder.build())
+        self.body = builder.build()
     }
 }

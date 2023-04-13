@@ -5,7 +5,7 @@ import Foundation
 struct CreateModerationRequest: Request {
     let method: HTTPMethod = .POST
     let path = "/v1/moderations"
-    let body: HTTPClient.Body?
+    let body: Data?
     
     init(
         input: String,
@@ -17,7 +17,7 @@ struct CreateModerationRequest: Request {
            model: model
         )
                 
-        self.body = .data(try Self.encoder.encode(body))
+        self.body = try Self.encoder.encode(body)
     }
 }
 
