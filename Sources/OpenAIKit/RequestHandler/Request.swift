@@ -4,7 +4,7 @@ import Foundation
 
 protocol Request {
     var method: HTTPMethod { get }
-    var scheme: String { get }
+    var scheme: API.Scheme { get }
     var host: String { get }
     var path: String { get }
     var body: Data? { get }
@@ -16,7 +16,7 @@ protocol Request {
 extension Request {
     static var encoder: JSONEncoder { .requestEncoder }
 
-    var scheme: String { "https" }
+    var scheme: API.Scheme { .https }
     var host: String { "api.openai.com" }
     var body: Data? { nil }
     
