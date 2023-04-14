@@ -12,9 +12,9 @@ extension ChatStream: Codable {}
 
 extension ChatStream {
     public struct Choice {
-        let index: Int
-        let finishReason: FinishReason?
-        let delta: ChatStream.Choice.Message
+        public let index: Int
+        public let finishReason: FinishReason?
+        public let delta: ChatStream.Choice.Message
     }
 }
 
@@ -22,8 +22,8 @@ extension ChatStream.Choice: Codable {}
 
 extension ChatStream.Choice {
     public struct Message {
-        let content: String?
-        let role: String?
+        public let content: String?
+        public let role: String?
     }
 }
 
