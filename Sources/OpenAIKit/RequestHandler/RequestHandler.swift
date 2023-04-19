@@ -85,6 +85,9 @@ struct RequestHandler {
             httpClientRequest.body = .bytes(body)
         }
         
+        decoder.keyDecodingStrategy = request.keyDecodingStrategy
+        decoder.dateDecodingStrategy = request.dateDecodingStrategy
+        
         let response = try await httpClient.execute(httpClientRequest, timeout: .seconds(25))
         
         return AsyncThrowingStream<T, Error> { continuation in
