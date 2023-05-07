@@ -107,16 +107,7 @@ struct RequestHandler {
                     }
                     continuation.finish()
                 } catch {
-                    
-                    let data = try? await response.body.reduce(into: Data()) { $0.append(.init(buffer: $1)) }
-                    
-                    if let data = data,
-                       let apiError = try? decoder.decode(APIErrorResponse.self, from: data) {
-                        continuation.finish(throwing: apiError)
-                    } else {
-                        continuation.finish(throwing: error)
-                    }
-        
+                    continuation.finish(throwing: error)
                 }
             }
         }
