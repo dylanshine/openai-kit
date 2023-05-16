@@ -19,8 +19,7 @@ public struct Client {
         httpClient: HTTPClient,
         configuration: Configuration
     ) {
-
-        let requestHandler = RequestHandler(
+        let requestHandler = NIORequestHandler(
             httpClient: httpClient,
             configuration: configuration
         )
@@ -34,7 +33,25 @@ public struct Client {
         self.embeddings = EmbeddingProvider(requestHandler: requestHandler)
         self.files = FileProvider(requestHandler: requestHandler)
         self.moderations = ModerationProvider(requestHandler: requestHandler)
-        
     }
-
+    
+    public init(
+        session: URLSession,
+        configuration: Configuration
+    ) {
+        let requestHandler = URLSessionRequestHandler(
+            session: session,
+            configuration: configuration
+        )
+        
+        self.audio = AudioProvider(requestHandler: requestHandler)
+        self.models = ModelProvider(requestHandler: requestHandler)
+        self.completions = CompletionProvider(requestHandler: requestHandler)
+        self.chats = ChatProvider(requestHandler: requestHandler)
+        self.edits = EditProvider(requestHandler: requestHandler)
+        self.images = ImageProvider(requestHandler: requestHandler)
+        self.embeddings = EmbeddingProvider(requestHandler: requestHandler)
+        self.files = FileProvider(requestHandler: requestHandler)
+        self.moderations = ModerationProvider(requestHandler: requestHandler)
+    }
 }
