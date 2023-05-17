@@ -36,9 +36,20 @@ struct URLSessionRequestHandler: RequestHandler {
         return AsyncThrowingStream<T, Error> { [urlRequest] continuation in
             Task(priority: .userInitiated) {
                 do {
-                    let (data, _) = try await session.data(for: urlRequest)
-                    let value = try decoder.decode(T.self, from: data)
-                    continuation.yield(value)
+                    
+                    let (bytes, _) = try await session.bytes(for: urlRequest)
+                    for try await buffer in bytes.lines {
+                        buffer
+                            .components(separatedBy: "data: ")
+                            .filter { $0 != "data: " }
+                            .compactMap {
+                                guard let data = $0.data(using: .utf8) else { return nil }
+                                return try? decoder.decode(T.self, from: data)
+                            }
+                            .forEach { value in
+                                continuation.yield(value)
+                            }
+                    }
                     continuation.finish()
                 } catch {
                     continuation.finish(throwing: error)
