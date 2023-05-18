@@ -1,4 +1,7 @@
 import Foundation
+#if os(Linux)
+import FoundationNetworking
+#endif
 
 struct URLSessionRequestHandler: RequestHandler {
     let session: URLSession

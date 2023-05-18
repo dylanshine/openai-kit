@@ -2,6 +2,9 @@ import AsyncHTTPClient
 import NIO
 import NIOHTTP1
 import Foundation
+#if os(Linux)
+import FoundationNetworking
+#endif
 
 public struct Client {
     
