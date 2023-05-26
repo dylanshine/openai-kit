@@ -22,8 +22,8 @@ struct RequestHandler {
     
     func generateURL(for request: Request) throws -> String {
         var components = URLComponents()
-        components.scheme = request.scheme
-        components.host = request.host
+        components.scheme = configuration.api?.scheme.value ?? request.scheme.value
+        components.host = configuration.api?.host ?? request.host
         components.path = request.path
             
         guard let url = components.url else {
@@ -85,6 +85,9 @@ struct RequestHandler {
             httpClientRequest.body = .bytes(body)
         }
         
+        decoder.keyDecodingStrategy = request.keyDecodingStrategy
+        decoder.dateDecodingStrategy = request.dateDecodingStrategy
+        
         let response = try await httpClient.execute(httpClientRequest, timeout: .seconds(25))
         
         return AsyncThrowingStream<T, Error> { continuation in
@@ -104,16 +107,7 @@ struct RequestHandler {
                     }
                     continuation.finish()
                 } catch {
-                    
-                    let data = try? await response.body.reduce(into: Data()) { $0.append(.init(buffer: $1)) }
-                    
-                    if let data = data,
-                       let apiError = try? decoder.decode(APIErrorResponse.self, from: data) {
-                        continuation.finish(throwing: apiError)
-                    } else {
-                        continuation.finish(throwing: error)
-                    }
-        
+                    continuation.finish(throwing: error)
                 }
             }
         }

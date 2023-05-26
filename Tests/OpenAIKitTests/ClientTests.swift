@@ -3,7 +3,7 @@ import NIOPosix
 import AsyncHTTPClient
 @testable import OpenAIKit
 
-final class OpenAIKitTests: XCTestCase {
+final class ClientTests: XCTestCase {
     
     private var httpClient: HTTPClient!
     private var client: Client!
@@ -50,9 +50,12 @@ final class OpenAIKitTests: XCTestCase {
             .system(content: "You are a fairytale storyteller. Create a fairytale about the subject in the next message."),
             .user(content: "a happy wolf in the forrest")
         ]
+        
         let completion = try await client.chats.create(
             model: Model.GPT4.gpt4,
-            messages: messages)
+            messages: messages
+        )
+        
         print(completion)
     }
     
@@ -143,36 +146,25 @@ final class OpenAIKitTests: XCTestCase {
         print(files)
     }
     
-    func test_uploadFile() async throws {
+    func test_file_uploadRetrieveDelete() async throws {
         let url = Bundle.module.url(forResource: "example", withExtension: "jsonl")!
         
         let data = try Data(contentsOf: url)
         
-        let file = try await client.files.upload(
+        let uploadedFile = try await client.files.upload(
             file: data,
-            fileName: "test.jsonl",
-            purpose: .answers
+            fileName: "\(UUID().uuidString).jsonl",
+            purpose: .fineTune
         )
         
-        print(file)
-    }
-    
-    func test_deleteFile() async throws {
-        let response = try await client.files.delete(id: "FILE-ID")
+        let retrievedFile = try await client.files.retrieve(id: uploadedFile.id)
         
-        print(response)
-    }
-    
-    func test_retrieveFile() async throws {
-        let file = try await client.files.retrieve(id: "FILE-ID")
+        let _: SingleLineJSONL = try await client.files.retrieveFileContent(id: retrievedFile.id)
         
-        print(file)
-    }
-    
-    func test_retrieveFileContent() async throws {
-        let file = try await client.files.retrieveFileContent(id: "FILE-ID")
+        let response = try await client.files.delete(id: retrievedFile.id)
+                
+        XCTAssertEqual(response.id, retrievedFile.id)
         
-        print(file)
     }
     
     func test_createModeration() async throws {
