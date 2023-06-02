@@ -1,8 +1,6 @@
 import Foundation
-#if os(Linux)
-import FoundationNetworking
-#endif
 
+#if !os(Linux)
 struct URLSessionRequestHandler: RequestHandler {
     let session: URLSession
     let configuration: Configuration
@@ -78,3 +76,4 @@ struct URLSessionRequestHandler: RequestHandler {
         return urlRequest
     }
 }
+#endif

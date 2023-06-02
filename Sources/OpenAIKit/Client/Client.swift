@@ -2,9 +2,6 @@ import AsyncHTTPClient
 import NIO
 import NIOHTTP1
 import Foundation
-#if os(Linux)
-import FoundationNetworking
-#endif
 
 public struct Client {
     
@@ -41,6 +38,7 @@ public struct Client {
         self.init(requestHandler: requestHandler)
     }
     
+#if !os(Linux)
     public init(
         session: URLSession,
         configuration: Configuration
@@ -51,4 +49,5 @@ public struct Client {
         )
         self.init(requestHandler: requestHandler)
     }
+#endif
 }
