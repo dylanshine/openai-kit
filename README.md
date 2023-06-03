@@ -59,6 +59,13 @@ let openAIClient = OpenAIKit.Client(httpClient: httpClient, configuration: confi
 
 ~~~~
 
+If you don't want to use SwiftNIO you can use URLSession.
+
+~~~~swift
+let urlSession = URLSession(configuration: .default)
+let configuration = Configuration(apiKey: apiKey, organization: organization)
+let openAIClient = OpenAIKit.Client(session: urlSession, configuration: configuration)
+~~~~
 
 ## Using the API
 

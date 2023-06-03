@@ -15,16 +15,7 @@ public struct Client {
     public let models: ModelProvider
     public let moderations: ModerationProvider
     
-    public init(
-        httpClient: HTTPClient,
-        configuration: Configuration
-    ) {
-
-        let requestHandler = RequestHandler(
-            httpClient: httpClient,
-            configuration: configuration
-        )
-        
+    init(requestHandler: RequestHandler) {
         self.audio = AudioProvider(requestHandler: requestHandler)
         self.models = ModelProvider(requestHandler: requestHandler)
         self.completions = CompletionProvider(requestHandler: requestHandler)
@@ -34,7 +25,29 @@ public struct Client {
         self.embeddings = EmbeddingProvider(requestHandler: requestHandler)
         self.files = FileProvider(requestHandler: requestHandler)
         self.moderations = ModerationProvider(requestHandler: requestHandler)
-        
     }
-
+    
+    public init(
+        httpClient: HTTPClient,
+        configuration: Configuration
+    ) {
+        let requestHandler = NIORequestHandler(
+            httpClient: httpClient,
+            configuration: configuration
+        )
+        self.init(requestHandler: requestHandler)
+    }
+    
+#if !os(Linux)
+    public init(
+        session: URLSession,
+        configuration: Configuration
+    ) {
+        let requestHandler = URLSessionRequestHandler(
+            session: session,
+            configuration: configuration
+        )
+        self.init(requestHandler: requestHandler)
+    }
+#endif
 }
