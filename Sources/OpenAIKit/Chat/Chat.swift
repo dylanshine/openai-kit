@@ -72,9 +72,18 @@ extension Chat.Message: Codable {
 
 extension Chat.Message {
     public var content: String {
-        switch self {
-        case .system(let content), .user(let content), .assistant(let content):
-            return content
+        get {
+            switch self {
+            case .system(let content), .user(let content), .assistant(let content):
+                return content
+            }
+        }
+        set {
+            switch self {
+            case .system: self = .system(content: newValue)
+            case .user: self = .user(content: newValue)
+            case .assistant: self = .assistant(content: newValue)
+            }
         }
     }
 }
