@@ -1,8 +1,8 @@
 //
-//  Audio.swift
-//  
+//  Transcription.swift
 //
-//  Created by Dylan Shine on 3/19/23.
+//
+//  Created by Joshua Galvan on 6/12/23.
 //
 
 
@@ -15,8 +15,8 @@ import Foundation
  Related guide: https://platform.openai.com/docs/guides/speech-to-text
  */
 
-public struct Audio {
+public struct Transcription {
     public let text: String
 }
 
-extension Audio: Codable {}
+extension Transcription: Codable {}
