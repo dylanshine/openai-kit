@@ -1,7 +1,7 @@
 import Foundation
 
 /**
- List and describe the various models available in the API. 
+ List and describe the various models available in the API.
  */
 public struct Model: Codable {
     public let id: String
@@ -41,9 +41,10 @@ extension Model {
         case gpt4_32k = "gpt-4-32k"
         case gpt4_32k0314 = "gpt-4-32k-0314"
     }
-    
+
     public enum GPT3: String, ModelID {
         case gpt3_5Turbo = "gpt-3.5-turbo"
+        case gpt3_5Turbo16K = "gpt-3.5-turbo-16k"
         case gpt3_5Turbo0301 = "gpt-3.5-turbo-0301"
         case textDavinci003 = "text-davinci-003"
         case textDavinci002 = "text-davinci-002"
@@ -60,14 +61,14 @@ extension Model {
         case ada
         case babbage
     }
-    
+
     public enum Codex: String, ModelID {
         case codeDavinci002 = "code-davinci-002"
         case codeCushman001 = "code-cushman-001"
         case codeDavinci001 = "code-davinci-001"
         case codeDavinciEdit001 = "code-davinci-edit-001"
     }
-    
+
     public enum Whisper: String, ModelID {
         case whisper1 = "whisper-1"
     }
