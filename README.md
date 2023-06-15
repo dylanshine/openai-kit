@@ -91,6 +91,7 @@ let completion = try await openAIClient.completions.create(
 * [x] [Moderations](https://beta.openai.com/docs/api-reference/moderations)
 * [ ] [Fine-tunes](https://beta.openai.com/docs/api-reference/fine-tunes)
 * [x] [Speech to text](https://platform.openai.com/docs/guides/speech-to-text)
+* [ ] [Function calling](https://platform.openai.com/docs/guides/gpt/function-calling)
 
 
 ## Error handling
