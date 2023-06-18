@@ -9,6 +9,9 @@ public enum FinishReason: String {
     
     /// Omitted content due to a flag from our content filters
     case contentFilter = "content_filter"
+    
+    /// ...
+    case functionCall = "function_call"
 }
 
 extension FinishReason: Codable {}

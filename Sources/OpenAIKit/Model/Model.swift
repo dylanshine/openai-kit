@@ -38,6 +38,7 @@ extension Model {
     public enum GPT4: String, ModelID {
         case gpt4 = "gpt-4"
         case gpt40314 = "gpt-4-0314"
+        case gpt40613 = "gpt-4-0613"
         case gpt4_32k = "gpt-4-32k"
         case gpt4_32k0314 = "gpt-4-32k-0314"
     }
