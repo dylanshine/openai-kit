@@ -10,6 +10,8 @@ struct CreateChatRequest: Request {
     init(
         model: String,
         messages: [Chat.Message],
+        functions: [any Chat.Function],
+        functionMode: Chat.FunctionMode,
         temperature: Double,
         topP: Double,
         n: Int,
@@ -25,6 +27,8 @@ struct CreateChatRequest: Request {
         let body = Body(
             model: model,
             messages: messages,
+            functions: functions,
+            functionCall: functionMode,
             temperature: temperature,
             topP: topP,
             n: n,
@@ -45,6 +49,8 @@ extension CreateChatRequest {
     struct Body: Encodable {
         let model: String
         let messages: [Chat.Message]
+        let functions: [any Chat.Function]
+        let functionCall: Chat.FunctionMode
         let temperature: Double
         let topP: Double
         let n: Int
@@ -59,6 +65,8 @@ extension CreateChatRequest {
         enum CodingKeys: CodingKey {
             case model
             case messages
+            case functions
+            case functionCall
             case temperature
             case topP
             case n
@@ -77,6 +85,14 @@ extension CreateChatRequest {
             
             if !messages.isEmpty {
                 try container.encode(messages, forKey: .messages)
+            }
+            
+            if !functions.isEmpty {
+                var nestedContainer = container.nestedUnkeyedContainer(forKey: .functions)
+                try functions.forEach {
+                    try nestedContainer.encode($0)
+                }
+                try container.encode(functionCall, forKey: .functionCall)
             }
 
             try container.encode(temperature, forKey: .temperature)
