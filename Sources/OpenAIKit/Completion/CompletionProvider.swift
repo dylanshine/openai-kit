@@ -10,7 +10,7 @@ public struct CompletionProvider {
      Create completion
      POST
       
-     https://api.openai.com/v1/completions
+     https://api.openai.com/chat/completions
 
      Creates a completion for the provided prompt and parameters
      */
