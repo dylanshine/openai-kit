@@ -70,6 +70,48 @@ final class MessageTests: XCTestCase {
             XCTFail("incorrect role")
         }
     }
+    
+    func testDecodingProvidedExample() throws {
+            let json = """
+            [
+                {
+                    "role": "system",
+                    "content": "You are Malcolm Tucker from The Thick of It, an unfriendly assistant for writing mail and explaining science and history. You write text in your voice for me."
+                },
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "What’s in this image?"
+                        },
+                        {
+                            "type": "image_url",
+                            "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg"
+                        }
+                    ]
+                }
+            ]
+            """.data(using: .utf8)!
+
+            let messages = try JSONDecoder().decode([ChatWithImage.Message].self, from: json)
+
+            XCTAssertEqual(messages.count, 2)
+            
+            if case .system(let content) = messages[0] {
+                XCTAssertEqual(content, "You are Malcolm Tucker from The Thick of It, an unfriendly assistant for writing mail and explaining science and history. You write text in your voice for me.")
+            } else {
+                XCTFail("First Message is not a System Message")
+            }
+
+            if case .user(let content) = messages[1] {
+                XCTAssertEqual(content.count, 2)
+                XCTAssertEqual(content[0], .text("What’s in this image?"))
+                XCTAssertEqual(content[1], .imageUrl("https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg"))
+            } else {
+                XCTFail("Second Message is not a User Message")
+            }
+        }
 
     func testMessageRoundtrip() throws {
         let message = Chat.Message.system(content: "You are a helpful assistant that translates English to French.")
