@@ -29,6 +29,12 @@ extension ChatWithImage {
 extension ChatWithImage.Choice: Codable {}
 
 extension ChatWithImage {
+    public struct ImageUrl: Codable {
+        let url: String
+    }
+}
+
+extension ChatWithImage {
     public enum Message {
         case system(content: String)
         case user(content: [Content])
@@ -37,7 +43,7 @@ extension ChatWithImage {
     
     public enum Content {
         case text(String)
-        case imageUrl(String)
+        case imageUrl(ImageUrl)
     }
 }
 
@@ -93,7 +99,7 @@ extension ChatWithImage.Content: Codable {
             let text = try container.decode(String.self, forKey: .text)
             self = .text(text)
         case "image_url":
-            let imageUrl = try container.decode(String.self, forKey: .imageUrl)
+            let imageUrl = try container.decode(ChatWithImage.ImageUrl.self, forKey: .imageUrl)
             self = .imageUrl(imageUrl)
         default:
             throw DecodingError.dataCorruptedError(forKey: .type, in: container, debugDescription: "Invalid type")
@@ -119,7 +125,7 @@ extension ChatWithImage.Content: Equatable {
         case (.text(let lhsText), .text(let rhsText)):
             return lhsText == rhsText
         case (.imageUrl(let lhsUrl), .imageUrl(let rhsUrl)):
-            return lhsUrl == rhsUrl
+            return lhsUrl.url == rhsUrl.url
         default:
             return false
         }
