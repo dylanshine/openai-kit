@@ -30,7 +30,7 @@ extension ChatWithImage.Choice: Codable {}
 
 extension ChatWithImage {
     public struct ImageUrl: Codable {
-        public tlet url: String
+        public let url: String
     }
 }
 
