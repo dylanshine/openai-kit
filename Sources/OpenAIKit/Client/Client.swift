@@ -14,6 +14,7 @@ public struct Client {
     public let images: ImageProvider
     public let models: ModelProvider
     public let moderations: ModerationProvider
+    public let chatsWithImage: ChatWithImageProvider
     
     init(requestHandler: RequestHandler) {
         self.audio = AudioProvider(requestHandler: requestHandler)
@@ -25,6 +26,7 @@ public struct Client {
         self.embeddings = EmbeddingProvider(requestHandler: requestHandler)
         self.files = FileProvider(requestHandler: requestHandler)
         self.moderations = ModerationProvider(requestHandler: requestHandler)
+        self.chatsWithImage = ChatWithImageProvider(requesthandler: requestHandler)
     }
     
     public init(
