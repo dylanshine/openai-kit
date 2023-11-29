@@ -78,8 +78,11 @@ extension ChatWithImage.Message: Codable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {
-        case .system(content: let content), .assistant(content: let content):
-            try container.encode("text", forKey: .role)
+        case .system(content: let content):
+            try container.encode("system", forKey: .role)
+            try container.encode(content, forKey: .content)
+        case .assistant(content: let content):
+            try container.encode("assistant", forKey: .role)
             try container.encode(content, forKey: .content)
         case .user(content: let content):
             try container.encode("user", forKey: .role)
