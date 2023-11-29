@@ -113,6 +113,8 @@ final class MessageTests: XCTestCase {
         } else {
             XCTFail("Second Message is not a User Message")
         }
+        
+        ChatWithImage.ImageUrl(url: <#T##String#>)
     }
 
 
