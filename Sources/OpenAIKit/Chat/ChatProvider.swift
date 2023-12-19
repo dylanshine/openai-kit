@@ -44,7 +44,37 @@ public struct ChatProvider {
         )
     
         return try await requestHandler.perform(request: request)
-
+    }
+    
+    public func createWithImage(
+        model: ModelID,
+        message: [Chat.MessageWithImage] = [],
+        temperature: Double = 1.0,
+        topP: Double = 1.0,
+        n: Int = 1,
+        stops: [String] = [],
+        maxTokens: Int? = nil,
+        presencePenalty: Double = 0.0,
+        frequencyPenalty: Double = 0.0,
+        logitBias: [String : Int] = [:],
+        user: String? = nil
+    ) async throws -> Chat {
+        let request = try CreateChatWithImageRequest(
+            model: model.id,
+            messages: message,
+            temperature: temperature,
+            topP: topP,
+            n: n,
+            stream: false,
+            stops: stops,
+            maxTokens: maxTokens,
+            presencePenalty: presencePenalty,
+            frequencyPenalty: frequencyPenalty,
+            logitBias: logitBias,
+            user: user
+        )
+        
+        return try await requestHandler.perform(request: request)
     }
     
     /**

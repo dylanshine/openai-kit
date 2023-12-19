@@ -53,18 +53,18 @@ final class RequestHandlerTests: XCTestCase {
     }
     
     func test_generateURL_configWithPort() throws {
-        let api = API(scheme: .http, host: "llms-se.baidu-int.com:8200", port: 8200)
+        let api = API(scheme: .http, host: "test.com", port: 8200)
         let configuration = Configuration(apiKey: "TEST", api: api)
         
         let request = TestRequest(
             scheme: .http,
-            host: "llms-se.baidu-int.com:8200",
+            host: "some-host",
             path: "/v1/test"
         )
         
         let url = try requestHandler(configuration: configuration).generateURL(for: request)
         
-        XCTAssertEqual(url, "http://llms-se.baidu-int.com:8200/v1/test")
+        XCTAssertEqual(url, "http://test.com:8200/v1/test")
     }
     
 }

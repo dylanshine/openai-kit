@@ -16,7 +16,7 @@ struct CreateChatWithImageRequest: Request {
     
     init(
         model: String,
-        messages: [ChatWithImage.Message],
+        messages: [Chat.MessageWithImage],
         temperature: Double,
         topP: Double,
         n: Int,
@@ -50,7 +50,7 @@ struct CreateChatWithImageRequest: Request {
 extension CreateChatWithImageRequest {
     struct Body: Encodable {
         let model: String
-        let messages: [ChatWithImage.Message]
+        let messages: [Chat.MessageWithImage]
         let temperature: Double
         let topP: Double
         let n: Int
