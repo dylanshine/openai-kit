@@ -1,10 +1,3 @@
-//
-//  File.swift
-//  
-//
-//  Created by 贺峰煜 on 2023/11/29.
-//
-
 import AsyncHTTPClient
 import NIOHTTP1
 import Foundation
