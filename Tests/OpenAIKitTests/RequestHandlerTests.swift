@@ -52,6 +52,21 @@ final class RequestHandlerTests: XCTestCase {
         XCTAssertEqual(url, "http://chat.openai.com/v1/test")
     }
     
+    func test_generateURL_configWithPort() throws {
+        let api = API(scheme: .http, host: "test.com", port: 8200)
+        let configuration = Configuration(apiKey: "TEST", api: api)
+        
+        let request = TestRequest(
+            scheme: .http,
+            host: "some-host",
+            path: "/v1/test"
+        )
+        
+        let url = try requestHandler(configuration: configuration).generateURL(for: request)
+        
+        XCTAssertEqual(url, "http://test.com:8200/v1/test")
+    }
+    
 }
 
 private struct TestRequest: Request {

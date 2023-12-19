@@ -3,15 +3,18 @@ import Foundation
 public struct API {
     public let scheme: Scheme
     public let host: String
+    public let port: Int?
     public let path: String?
     
     public init(
         scheme: API.Scheme,
         host: String,
+        port: Int? = nil,
         pathPrefix path: String? = nil
     ) {
         self.scheme = scheme
         self.host = host
+        self.port = port
         self.path = path
     }
 }
