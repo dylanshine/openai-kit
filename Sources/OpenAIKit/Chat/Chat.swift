@@ -25,7 +25,7 @@ extension Chat {
 extension Chat.Choice: Codable {}
 
 extension Chat {
-    public enum Message {
+    public enum Message: Hashable {
         case system(content: String)
         case user(content: String)
         case assistant(content: String)
