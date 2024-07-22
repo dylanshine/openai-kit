@@ -20,7 +20,7 @@ final class RequestHandlerTests: XCTestCase {
     private func requestHandler(
         configuration: Configuration
     ) -> RequestHandler {
-        return RequestHandler(httpClient: httpClient, configuration: configuration)
+        return NIORequestHandler(httpClient: httpClient, configuration: configuration)
     }
     
     func test_generateURL_requestWithCustomValues() throws {

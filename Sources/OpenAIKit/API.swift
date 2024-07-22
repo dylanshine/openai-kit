@@ -3,13 +3,16 @@ import Foundation
 public struct API {
     public let scheme: Scheme
     public let host: String
+    public let path: String?
     
     public init(
         scheme: API.Scheme,
-        host: String
+        host: String,
+        pathPrefix path: String? = nil
     ) {
         self.scheme = scheme
         self.host = host
+        self.path = path
     }
 }
 

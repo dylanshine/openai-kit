@@ -59,6 +59,13 @@ let openAIClient = OpenAIKit.Client(httpClient: httpClient, configuration: confi
 
 ~~~~
 
+If you don't want to use SwiftNIO you can use URLSession.
+
+~~~~swift
+let urlSession = URLSession(configuration: .default)
+let configuration = Configuration(apiKey: apiKey, organization: organization)
+let openAIClient = OpenAIKit.Client(session: urlSession, configuration: configuration)
+~~~~
 
 ## Using the API
 
@@ -84,6 +91,7 @@ let completion = try await openAIClient.completions.create(
 * [x] [Moderations](https://beta.openai.com/docs/api-reference/moderations)
 * [ ] [Fine-tunes](https://beta.openai.com/docs/api-reference/fine-tunes)
 * [x] [Speech to text](https://platform.openai.com/docs/guides/speech-to-text)
+* [ ] [Function calling](https://platform.openai.com/docs/guides/gpt/function-calling)
 
 
 ## Error handling
